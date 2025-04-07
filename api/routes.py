@@ -100,7 +100,7 @@ def get_task(id):
         if task:
             return jsonify(task_serializer(task)),200
         return jsonify({"error": "Task not found"}), 404
-    except InvalidID:
+    except InvalidId:
         return jsonify({"error": "Invalid task ID format"}), 400
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}), 500
@@ -148,7 +148,7 @@ def update_task(id):
         elif result.matched_count > 0:
             return jsonify({"message": "No changes made to task"}), 200
         return jsonify({"error": "Task not found"}), 404
-    except InvalidID:
+    except InvalidId:
         return jsonify({"error": "Invalid task ID format"}), 400
     except Exception as e:
         return jsonify({"error": "Server error", "details": str(e)}) ,500
