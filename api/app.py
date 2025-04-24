@@ -2,7 +2,7 @@ from flask import Flask
 from api.routes import task_bp
 from flasgger import Swagger
 from api.auth_routes import auth_bp
-from flask_jwt_extended import jwt_manager
+from flask_jwt_extended import JWTManager
 import os
 from datetime import timedelta
 from dotenv import load_dotenv

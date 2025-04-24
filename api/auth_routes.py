@@ -6,8 +6,8 @@ from marshmallow import Schema, fields, ValidationError
 auth_bp = Blueprint('auth_bp', __name__)
 
 class UserSchema(Schema):
-    username = fields.str(required= True)
-    password = fields.str(required = True)
+    username = fields.Str(required= True)
+    password = fields.Str(required = True)
     
 user_schema = UserSchema()
 
