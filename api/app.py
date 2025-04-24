@@ -1,8 +1,18 @@
 from flask import Flask
 from api.routes import task_bp
 from flasgger import Swagger
+from api.auth_routes import auth_bp
+from flask_jwt_extended import jwt_manager
+import os
+from datetime import timedelta
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
+
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours =1)
+jwt = JWTManager(app)
 
 # configure swagger
 swagger_config = {
@@ -25,9 +35,21 @@ swagger_template = {
         "title": "Task Manager API",
         "description": "API for managing tasks",
         "version": "1.0.0"
-    }
+    },
+     "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+        }
+    },
+    "security": [
+        {"Bearer": []}
+    ]
 }
 app.register_blueprint(task_bp)
+app.register_blueprint(auth_bp)
 swagger = Swagger(app,config=swagger_config, template=swagger_template)
 
 @app.route('/')
